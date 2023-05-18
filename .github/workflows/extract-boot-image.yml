@@ -1,0 +1,37 @@
+name: Extract Boot Image
+on:
+  workflow_dispatch:
+    inputs:
+      rom_url:
+        description: 'URL of the ROM'
+        required: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Download payload-dumper-go
+      uses: robinraju/release-downloader@v1.8
+      with:
+        repository: "ssut/payload-dumper-go"
+        latest: true
+        fileName: "*linux_386.tar.gz"
+        extract: true
+    
+    - name: Download ROM and extract
+      run: |
+        sudo apt-get install axel;
+        axel -o rom.zip ${{ github.event.inputs.rom_url }};
+        unzip rom.zip payload.bin;
+
+    - name: Extract boot image
+      run: |
+        chmod +x payload-dumper-go;
+        ./payload-dumper-go -p boot -o ./imgs ./payload.bin;
+
+    - name: Upload boot image
+      uses: actions/upload-artifact@v3.1.2
+      with:
+        name: boot.img
+        path: ./imgs/boot.img
