@@ -1,5 +1,7 @@
 # Extract Boot Image
 
+[English Version](./README_EN.md)  
+
 这是一个利用 Github Action 从 `payload.bin` 文件中提取 `boot.img` 的项目。用户只需 Fork 本项目，然后从 [xiaomirom.com](https://xiaomirom.com/) 找到适用于自己手机的卡刷包下载地址，运行 GitHub Action 并填入卡刷包下载地址，等待运行完成后即可下载 `boot.img.zip` 文件，解压后即可获取 `boot.img`。
 
 ## 使用方法
